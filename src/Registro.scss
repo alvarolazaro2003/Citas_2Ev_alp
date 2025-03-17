@@ -1,0 +1,135 @@
+$primary-color: #037BC0;
+$primary-dark: #025a8d;
+$bg-color: #f0f4f8;
+$input-bg: #ffffff;
+$input-border: #d1d5db;
+$border-radius: 10px;
+$transition: 0.3s ease-in-out;
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+.register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8); // Fondo semi-transparente para el contenedor
+  padding: 20px;
+  background: linear-gradient(to bottom right, #3498db, #2ecc71); // Fondo degradado
+
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
+
+  .register-box {
+    background-color: rgba(255, 255, 255, 0.8); // Fondo semi-transparente para el contenedor
+    padding: 40px;
+    border-radius: $border-radius;
+    box-shadow: 0 4px 10px $shadow-color;
+    text-align: center;
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;  // Ajustado para un espacio más equilibrado entre los elementos
+    
+    @media (max-width: 768px) {
+      padding: 25px;
+      max-width: 100%;
+    }
+
+    h2 {
+      color: $primary-color;
+      margin-bottom: 20px;
+      font-size: 26px;
+      font-weight: 700;
+      text-transform: uppercase;
+      
+      @media (max-width: 768px) {
+        font-size: 22px;
+      }
+    }
+
+    .input-group {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;  // Más espacio entre los inputs para que no se vean apretados
+
+      input {
+        width: 100%;
+        padding: 14px;
+        border: 1px solid $input-border;
+        border-radius: $border-radius;
+        font-size: 16px;
+        background: $input-bg;
+        outline: none;
+        transition: $transition;
+        box-sizing: border-box;
+
+        &:focus {
+          border-color: $primary-color;
+          box-shadow: 0 0 8px rgba(3, 123, 192, 0.3);
+        }
+      }
+    }
+
+    button {
+      width: 100%;
+      background: $primary-color;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: $border-radius;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 20px;
+      transition: $transition;
+      box-shadow: 0 4px 10px rgba(3, 123, 192, 0.2);
+
+      &:hover {
+        background: $primary-dark;
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        transform: scale(0.98);
+      }
+
+      @media (max-width: 768px) {
+        padding: 12px;
+        font-size: 16px;
+      }
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .success {
+      color: green;
+      font-size: 14px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .login-link {
+      margin-top: 15px;
+      font-size: 14px;
+      color: $primary-color;
+      cursor: pointer;
+      text-align: center;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@import "../src/assets/login.scss";
+@import "../src/assets/crearcitas.scss";

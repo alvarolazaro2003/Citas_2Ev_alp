@@ -1,0 +1,62 @@
+$primary-color: #037BC0;
+
+
+.fondo-pantalla {
+  background: linear-gradient(to bottom right, #3498db, #2ecc71); // Fondo degradado
+  min-height: 100vh; // Asegura que el fondo cubra toda la pantalla
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.crear-cita-container {
+  background-color: rgba(255, 255, 255, 0.8); // Fondo semi-transparente para el contenedor
+  padding: 40px; // Aumentado el padding para más espacio
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px; // Aumentado el max-width para hacerlo más grande
+  text-align: center;
+}
+
+h2 {
+  color: $primary-color;
+  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  
+  @media (max-width: 768px) {
+    font-size: 22px;
+  }
+}
+
+select {
+  width: 100%;
+  padding: 12px; // Aumentado el padding para más comodidad
+  margin-bottom: 20px; // Aumentado el espacio inferior
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 24px; // Aumentado el padding para más tamaño
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px; // Añadido margen superior para bajar el botón
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+@media (max-width: 600px) {
+  .crear-cita-container {
+    width: 90%;
+  }
+}
