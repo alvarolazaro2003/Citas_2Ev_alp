@@ -10,7 +10,6 @@
           </option>
         </select>
 
-        <!-- Calendario -->
         <DatePicker v-model="fechaCita" :min-date="new Date()" :disabled-dates="citasOcupadas" />
 
         <button @click="crearCita">Crear Cita</button>
@@ -23,7 +22,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import DatePicker from '@vuepic/vue-datepicker';
-import Swal from 'sweetalert2';  // Importar SweetAlert2
+import Swal from 'sweetalert2';  
 import '@vuepic/vue-datepicker/dist/main.css';
 
 const router = useRouter();
@@ -31,13 +30,11 @@ const centroSeleccionado = ref('');
 const fechaCita = ref(null);
 const citasOcupadas = ref([]);
 
-// Centros de salud disponibles
 const centrosDisponibles = [
   { name: 'Centro de Salud Madrid Norte', address: 'Calle de la Salud, 123, Madrid' },
   { name: 'Centro Médico Madrid Sur', address: 'Avenida de la Medicina, 456, Madrid' }
 ];
 
-// Convertir fecha al formato del servidor
 const formatoFecha = (fecha) => {
   if (!fecha) return '';
   const d = new Date(fecha);
@@ -48,7 +45,7 @@ const formatoFecha = (fecha) => {
   return `${dia}/${mes}/${año} ${horas}:00:00`;
 };
 
-// Crear una nueva cita
+
 const crearCita = async () => {
   try {
     const token = localStorage.getItem('token');
@@ -56,7 +53,6 @@ const crearCita = async () => {
 
     if (!fechaCita.value) throw new Error('Debes seleccionar una fecha');
 
-    // Verificar si la fecha ya está ocupada
     if (citasOcupadas.value.some(cita => cita.getTime() === fechaCita.value.getTime())) {
       throw new Error('La fecha seleccionada ya está ocupada');
     }
@@ -79,11 +75,10 @@ const crearCita = async () => {
       throw new Error(datosError.msg || 'Error al crear la cita');
     }
 
-    const datos = await respuesta.json();
     Swal.fire({
       icon: 'success',
-      title: 'Cita creada',
-      text: datos.msg,
+      title: 'Cita creada', 
+      text: 'Tu cita ha sido creada con éxito.', 
     });
 
     setTimeout(() => router.push('/citas'), 2000);
@@ -96,7 +91,7 @@ const crearCita = async () => {
   }
 };
 
-// Volver a la página de citas
+
 const volverACitas = () => {
   router.push('/citas');
 };

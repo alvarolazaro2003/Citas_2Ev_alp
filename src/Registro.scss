@@ -7,6 +7,9 @@ $border-radius: 10px;
 $transition: 0.3s ease-in-out;
 $shadow-color: rgba(0, 0, 0, 0.1);
 
+// Importar Poppins desde Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
 .register-container {
   display: flex;
   flex-direction: column;
@@ -16,6 +19,7 @@ $shadow-color: rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.8); // Fondo semi-transparente para el contenedor
   padding: 20px;
   background: linear-gradient(to bottom right, #3498db, #2ecc71); // Fondo degradado
+  font-family: 'Poppins', sans-serif; // Aplica la tipografía Poppins
 
   @media (max-width: 768px) {
     padding: 15px;

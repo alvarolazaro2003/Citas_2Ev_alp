@@ -61,7 +61,7 @@ const register = async () => {
       const data = await response.json();
       successMsg.value = data.msg;
       errorMsg.value = '';
-      Swal.fire('Registro exitoso', data.msg, 'success');
+      Swal.fire('Cuenta creada con éxito', '', 'success');
       setTimeout(() => router.push('/login'), 2000);
     } else {
       const errorData = await response.json();
@@ -75,6 +75,8 @@ const register = async () => {
     Swal.fire('Error', 'Error en el registro', 'error');
   }
 };
+
+
 
 const goToLogin = () => {
   router.push('/login');

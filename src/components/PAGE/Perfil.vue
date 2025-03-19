@@ -4,9 +4,9 @@
       <div class="caja-perfil">
         <h2>Perfil de Usuario</h2>
 
-        <div v-if="mensajeError" class="error">{{ mensajeError }}</div>  <!-- Mensaje de error si ocurre algún problema -->
+        <div v-if="mensajeError" class="error">{{ mensajeError }}</div>  
 
-        <div v-else>    <!-- Mostrar la información del perfil (modo no edicion)-->
+        <div v-else>   
           <div class="informacion-perfil" v-if="!modoEdicion">
             <div class="elemento-perfil">
               <strong>Nombre:</strong>
@@ -30,7 +30,7 @@
             </div>
           </div>
 
-          <div v-if="modoEdicion">   <!-- Mostrar la información del perfil (modo edicion)-->
+          <div v-if="modoEdicion">  
             <div class="elemento-perfil">
               <label for="nombre">Nombre:</label>
               <input v-model="datosPerfil.nombre" id="nombre" type="text" />
@@ -49,10 +49,10 @@
             </div>
           </div>
 
-          <button v-if="!modoEdicion" @click="editarPerfil">Editar perfil</button>  <!-- Botón para activar el modo edición -->
-          <button v-if="modoEdicion" @click="guardarPerfil">Guardar cambios</button> <!-- Botón para guardar los cambios -->
+          <button v-if="!modoEdicion" @click="editarPerfil">Editar perfil</button>  
+          <button v-if="modoEdicion" @click="guardarPerfil">Guardar cambios</button> 
 
-          <button @click="volverInicio">Volver al inicio</button>  <!-- Botón para volver al inicio -->
+          <button @click="volverInicio">Volver al inicio</button>  
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const datosPerfil = ref({   // Contiene los datos del perfil del usuario
+const datosPerfil = ref({  
   usuario: '',
   nombre: '',
   apellido: '',
@@ -72,21 +72,21 @@ const datosPerfil = ref({   // Contiene los datos del perfil del usuario
   telefono: '',
 });
 
-const mensajeError = ref('');   // Mensaje de error, si ocurre alguno
-const modoEdicion = ref(false);  // Modo edición (true: activado, false: desactivado)
+const mensajeError = ref('');   
+const modoEdicion = ref(false);  
 
-const obtenerPerfil = async () => {  // Función para obtener el perfil del usuario
+const obtenerPerfil = async () => {  
   try {
     const respuesta = await fetch('http://127.0.0.1:5000/profile', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`, // Obtenemos el Token de autenticación
+        'Authorization': `Bearer ${localStorage.getItem('token')}`, 
       },
     });
 
     if (respuesta.ok) {
-      const datos = await respuesta.json();   // Obtenemos los datos del perfil (Si todo ha ido bien)
+      const datos = await respuesta.json();   
       datosPerfil.value = {
         usuario: datos.username,
         nombre: datos.name,
@@ -99,14 +99,14 @@ const obtenerPerfil = async () => {  // Función para obtener el perfil del usua
       mensajeError.value = datosError.msg || 'Error al obtener el perfil';
     }
   } catch (error) {
-    mensajeError.value = 'Error al obtener el perfil'; // Mensaje de error si ocurre algún problema
+    mensajeError.value = 'Error al obtener el perfil'; 
   }
 };
 
-const guardarPerfil = async () => {  // Función para guardar los cambios (actualización con PATCH)
+const guardarPerfil = async () => {  
   try {
     const respuesta = await fetch('http://127.0.0.1:5000/currentUser', {
-      method: 'PATCH', // Método PATCH para actualizar parcialmente los datos del perfil
+      method: 'PATCH', 
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -128,8 +128,8 @@ const guardarPerfil = async () => {  // Función para guardar los cambios (actua
         correo: datos.email,
         telefono: datos.phone,
       };
-      modoEdicion.value = false; // Desactivar el modo edición después de guardar los cambios
-      router.push('/verperfil'); // Redirigir al perfil después de guardar los cambios
+      modoEdicion.value = false;
+      router.push('/verperfil'); 
     } else {
       const datosError = await respuesta.json();
       mensajeError.value = datosError.msg || 'Error al guardar los cambios';
@@ -139,12 +139,12 @@ const guardarPerfil = async () => {  // Función para guardar los cambios (actua
   }
 };
 
-const editarPerfil = () => { // Función para activar el modo edición
+const editarPerfil = () => { 
   modoEdicion.value = true;
 };
 
-const volverInicio = () => { // Función para volver al inicio
-  router.push('/citas'); // Redirigir al inicio
+const volverInicio = () => { 
+  router.push('/citas'); 
 };
 
 onMounted(() => {

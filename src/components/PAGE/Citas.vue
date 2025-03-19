@@ -1,45 +1,50 @@
-<!-- Correcto funciona -->
 <template>
   <div class="fondo-pantalla">
-
     <div class="citas-container">
-    <div class="header">
-      <h2>Mis Citas</h2>
+      <div class="header">
+        <h2>Citas</h2>
 
-      <button @click="verPerfil" class="profile-button">Ver mi Perfil</button> <!-- Botón para ver el perfil -->   
-      <button @click="mostrarModal = true" class="logout-button">Cerrar Sesión</button> <!-- Botón para cerrar sesión -->
-    </div>
+        <button @click="verPerfil" class="profile-button">Ver mi Perfil</button>
+        <button @click="mostrarModal = true" class="logout-button">Cerrar Sesión</button>
+      </div>
 
-    <button @click="router.push('/crearcitas')" class="create-button">Crear Cita</button> <!-- Botón para ir a la página de creación de citas -->
+      <button @click="router.push('/crearcitas')" class="create-button">Crear Cita</button>
 
-    <p v-if="mensajeError" class="error">{{ mensajeError }}</p> <!-- Mostrar mensaje de error -->
-    <p v-if="mensajeTodoBien" class="success">{{ mensajeTodoBien }}</p> <!-- Mostrar mensaje de que todo va bien -->
+      <p v-if="mensajeError" class="error">{{ mensajeError }}</p>
+      <p v-if="mensajeTodoBien" class="success">{{ mensajeTodoBien }}</p>
 
-    <!-- Mostrar las citas existentes -->
-    <div v-if="!mensajeError && citas.length > 0">
-      <ul>
-        <li v-for="(cita, index) in citas" :key="cita.id">
-          <p><strong>Centro Medico:</strong> {{ cita.center }}</p>
-          <p><strong>Fecha:</strong> {{ cita.date }}</p>
-          <button @click="cancelarCita(cita)" class="cancel-button">Cancelar Cita</button> <!-- Botón para cancelar la cita -->
-        </li>
-      </ul>
-    </div>
-    <p v-if="!mensajeError && citas.length === 0">No tienes citas.</p> <!-- Muestra el mensaje si no hay citas -->
+      <div v-if="!mensajeError && misCitas.length > 0">
+        <h3>Mis Citas</h3>
+        <ul>
+          <li v-for="(cita, index) in misCitas" :key="cita.id">
+            <p><strong>Centro Médico:</strong> {{ cita.center }}</p>
+            <p><strong>Fecha:</strong> {{ cita.date }}</p>
+            <button @click="cancelarCita(cita)" class="cancel-button">Cancelar Cita</button>
+          </li>
+        </ul>
+      </div>
+      <p v-if="!mensajeError && misCitas.length === 0">No tienes citas.</p>
 
-    <!-- Modal de confirmación -->
-    <div v-if="mostrarModal" class="modal-overlay">
-      <div class="modal">
-        <p>¿Estás seguro de que quieres cerrar sesión?</p>
-        <button @click="cerrarSesion" class="confirm-button">Sí</button>
-        <button @click="mostrarModal = false" class="cancel-button">No</button>
+      <div v-if="!mensajeError && todasCitas.length > 0">
+        <h3>Todas las Citas</h3>
+        <ul>
+          <li v-for="(cita, index) in todasCitas" :key="cita.id">
+            <p><strong>Centro Médico:</strong> {{ cita.center }}</p>
+            <p><strong>Fecha:</strong> {{ cita.date }}</p>
+          </li>
+        </ul>
+      </div>
+      <p v-if="!mensajeError && todasCitas.length === 0">No hay ninguna cita creada por otro usuario.</p>
+
+      <div v-if="mostrarModal" class="modal-overlay">
+        <div class="modal">
+          <p>¿Estás seguro de que quieres cerrar sesión?</p>
+          <button @click="cerrarSesion" class="confirm-button">Sí</button>
+          <button @click="mostrarModal = false" class="cancel-button">No</button>
+        </div>
       </div>
     </div>
   </div>
-
-
-  </div>
-
 </template>
 
 <script setup>
@@ -47,15 +52,15 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const citas = ref([]); // Array para almacenar las citas
-const mensajeError = ref(''); // Guarda el mensaje de error
-const mensajeTodoBien = ref(''); // Guarda el mensaje de error
-const mostrarModal = ref(false); // Estado para mostrar el modal
+const misCitas = ref([]); 
+const todasCitas = ref([]); 
+const mensajeError = ref('');
+const mensajeTodoBien = ref('');
+const mostrarModal = ref(false);
 
-const obtenerCitasUsuario = async () => {   // Función para obtener las citas de un usuario
+const obtenerCitasUsuario = async () => {
   try {
-    const token = localStorage.getItem('token');  // Obtener el token del localStorage
-
+    const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('No estás autenticado. Por favor, inicia sesión primero.');
     }
@@ -63,23 +68,21 @@ const obtenerCitasUsuario = async () => {   // Función para obtener las citas d
     const response = await fetch('http://127.0.0.1:5000/date/getByUser', {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,  // Enviar el token en el encabezado Authorization
+        'Authorization': `Bearer ${token}`,
       },
     });
 
-    const data = await response.json(); // Convertir la respuesta a JSON
-    citas.value = data;  // Asignamos las citas obtenidas a la variable 'citas'
+    const data = await response.json();
+    misCitas.value = data;
 
   } catch (error) {
-    mensajeError.value = error.message || 'Hubo un error'; // Mostrar el mensaje de error si ocurre algo
+    mensajeError.value = error.message || 'Hubo un error';
   }
 };
 
-
 const obtenerTodasCitas = async () => {
   try {
-    const token = localStorage.getItem('token');  // Obtener el token del localStorage
-
+    const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('No estás autenticado. Por favor, inicia sesión primero.');
     }
@@ -87,23 +90,21 @@ const obtenerTodasCitas = async () => {
     const response = await fetch('http://127.0.0.1:5000/dates', {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,  // Enviar el token en el encabezado Authorization
+        'Authorization': `Bearer ${token}`,
       },
     });
 
-    const data = await response.json(); // Convertir la respuesta a JSON
-    citas.value = data;  // Asignamos las citas obtenidas a la variable 'citas'
+    const data = await response.json();
+    todasCitas.value = data;
 
   } catch (error) {
-    mensajeError.value = error.message || 'Hubo un error'; // Mostrar el mensaje de error si ocurre algo
+    mensajeError.value = error.message || 'Hubo un error';
   }
 };
 
-
-const cancelarCita = async (cita) => {   // Función para cancelar una cita
+const cancelarCita = async (cita) => {
   try {
-    const token = localStorage.getItem('token');  
-
+    const token = localStorage.getItem('token');
     if (!token) {
       throw new Error('No estás autenticado. Por favor, inicia sesión primero.');
     }
@@ -115,8 +116,8 @@ const cancelarCita = async (cita) => {   // Función para cancelar una cita
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        center: cita.center,  // Enviamos el centro de la cita
-        date: cita.date,    // Enviamos la fecha de la cita
+        center: cita.center,
+        date: cita.date,
       }),
     });
 
@@ -126,7 +127,7 @@ const cancelarCita = async (cita) => {   // Función para cancelar una cita
     }
 
     mensajeTodoBien.value = 'Cita cancelada con éxito';
-    obtenerCitasUsuario();  // Volvemos a obtener las citas después de cancelar una
+    obtenerCitasUsuario();
 
   } catch (error) {
     mensajeError.value = error.message || 'Hubo un error';
@@ -135,10 +136,10 @@ const cancelarCita = async (cita) => {   // Función para cancelar una cita
 
 const cerrarSesion = () => {
   localStorage.removeItem('token');
-  router.push('/'); // Redirige a la página de inicio
+  router.push('/');
 };
 
-const verPerfil = () => { // Función para redirigir al perfil
+const verPerfil = () => {
   router.push('/verperfil');
 };
 
@@ -149,6 +150,4 @@ onMounted(obtenerTodasCitas);
 
 <style lang="scss" scoped>
 @import '/src/assets/citas.scss';
-
-
 </style>

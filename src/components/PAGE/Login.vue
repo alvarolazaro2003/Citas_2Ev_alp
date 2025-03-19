@@ -29,20 +29,17 @@ const usuario = ref('');
 const contrasena = ref('');
 let tiempoInactividad;
 
-// Función para cerrar sesión por inactividad
 const cerrarSesion = () => {
   Swal.fire('Sesión cerrada', 'No hubo actividad durante 5 segundos', 'info');
-  localStorage.removeItem('token'); // Elimina el token del almacenamiento local
-  router.push('/'); // Redirige a la página principal o de inicio de sesión
+  localStorage.removeItem('token'); 
+  router.push('/'); 
 };
 
-// Función para reiniciar el temporizador de inactividad
 const reiniciarTemporizador = () => {
-  clearTimeout(tiempoInactividad); // Borra el temporizador anterior
-  tiempoInactividad = setTimeout(cerrarSesion, 5000); // Inicia un nuevo temporizador de 5 segundos
+  clearTimeout(tiempoInactividad); 
+  tiempoInactividad = setTimeout(cerrarSesion, 5000); 
 };
 
-// Función para iniciar sesión
 const iniciarSesion = async () => {
   try {
     const respuesta = await fetch('http://127.0.0.1:5000/login', {
@@ -62,10 +59,8 @@ const iniciarSesion = async () => {
     Swal.fire('Inicio de sesión exitoso', 'Bienvenido', 'success');
     router.push('/citas');
 
-    // Inicia el temporizador de inactividad
     reiniciarTemporizador();
 
-    // Detecta eventos de interacción del usuario y reinicia el temporizador
     document.addEventListener('mousemove', reiniciarTemporizador);
     document.addEventListener('keydown', reiniciarTemporizador);
     document.addEventListener('click', reiniciarTemporizador);
@@ -74,7 +69,6 @@ const iniciarSesion = async () => {
   }
 };
 
-// Función para ir a la página de registro
 const irARegistrar = () => {
   router.push('/registrarse');
 };

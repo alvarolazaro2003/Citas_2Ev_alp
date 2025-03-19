@@ -1,5 +1,7 @@
 $primary-color: #037BC0;
 
+// Importar Poppins desde Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
 
 .fondo-pantalla {
   background: linear-gradient(to bottom right, #3498db, #2ecc71); // Fondo degradado
@@ -7,6 +9,7 @@ $primary-color: #037BC0;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: 'Poppins', sans-serif; // Aplica la tipografía Poppins
 }
 
 .crear-cita-container {
